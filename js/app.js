@@ -42,7 +42,7 @@ function generateImg(){
     }
     Product.allObject[index2].shown++;
     let index3=randomNumber( 0, img_pathArr.length-1 );
-    while(index3== index1 && index3==index2){
+    while(index3== index1 || index3==index2){
          index3=randomNumber( 0, img_pathArr.length-1 );
     }
     Product.allObject[index3].shown++; 
@@ -68,48 +68,37 @@ function randomNumber( min, max ) {
   generateImg();
   //event listener
   function sectionEvent( e ){
-    if( clickNumber < 25)
-    {
-        clickNumber++;
-        generateImg();
-        
+      console.log(e);
+      
+      if((e.target.id =='img1' || e.target.id=='img2' || e.target.id=='img3') && clickNumber<25){
+         if(e.target.id =='img1'){
+            Product.allObject[indexImg1].clicks++;
+            generateImg();
+            clickNumber++;
+            console.log(clickNumber,'img 1');
 
-    }
+         }
+         if(e.target.id =='img2'){
+            Product.allObject[indexImg2].clicks++;
+            generateImg();
+            clickNumber++;
+            console.log(clickNumber,'img 2');
+
+         }
+         if(e.target.id =='img3'){
+            Product.allObject[indexImg3].clicks++;
+            generateImg();
+            clickNumber++;
+            console.log(clickNumber,'img 3');
+
+         }
+
+      }
+   
 }
   
   imgSection.addEventListener('click', sectionEvent);
-  img1.addEventListener('click',function(e){
-      if(clickNumber < 25){
-        clickNumber++;
-        Product.allObject[indexImg1].clicks++;
-        generateImg();
-        console.log('img 1 click');
-
-      }
-
-  });
-  img2.addEventListener('click',function(e){
-    if(clickNumber < 25){
-      clickNumber++;
-      Product.allObject[indexImg2].clicks++;
-      generateImg();
-      console.log('img 2 click');
-
-    }
-    console.log(clickNumber);
-
-});
-img3.addEventListener('click',function(e){
-    if(clickNumber < 25){
-      clickNumber++;
-      Product.allObject[indexImg3].clicks++;
-      generateImg();
-      console.log('img 3 click');
-      console.log(clickNumber);
-
-    }
-
-});
+ 
   let btn=document.getElementById('Results');
   btn.addEventListener('click',function(){
       let ul=document.createElement('ul');
