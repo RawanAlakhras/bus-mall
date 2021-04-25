@@ -1,0 +1,31 @@
+body ,ul ,section, div,footer ,nav{
+    margin: 0;
+    padding: 0;
+}
+*{
+    box-sizing: border-box;
+}
+main{
+    width: 70%;
+    margin: auto;
+}
+nav{
+    height: 80px;
+    background-color: #51c4d3;
+}
+.all-img{
+    height: 90vh;
+    width: 100%;
+    background-color: #ccc;
+    padding: 20px;
+}
+.all-img img{
+    width: 32%;
+    height: 300px;
+    display: inline-block;
+    margin: auto;
+}
+footer{
+    height: 50px;
+    background-color: #126e82;
+}
