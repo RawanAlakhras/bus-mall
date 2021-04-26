@@ -99,7 +99,24 @@ function randomNumber( min, max ) {
 }
   
 imgSection.addEventListener('click', sectionEvent);
- 
+let btn=document.getElementById('Results');
+  function btnFunction (){
+    let ul=document.createElement('ul');
+    document.getElementById('section-Results').appendChild(ul);
+    
+    for (let i=0;i<Product.allObject.length ;i++){
+       let li=document.createElement('li');
+        li.textContent=Product.allObject[i].name + ' had '+Product.allObject[i].clicks+' votes and was seen '+Product.allObject[i].shown+' times.';
+        ul.appendChild(li);
+    }
+    btn.removeEventListener('click',btnFunction);
+    
+  }
+  btn.addEventListener('click',btnFunction);
+     
+
+
+  console.log(clickNumber); 
 
 
     
