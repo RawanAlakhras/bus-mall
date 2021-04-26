@@ -12,6 +12,7 @@ let clickNumber = 0;
 let indexImg1=0;
 let indexImg2=0;
 let indexImg3=0;
+let vote=25;
 //craete constructor
 function Product (name ) {
     this.name=name;
@@ -70,7 +71,7 @@ function randomNumber( min, max ) {
   function sectionEvent( e ){
       console.log(e);
       
-      if((e.target.id =='img1' || e.target.id=='img2' || e.target.id=='img3') && clickNumber<25){
+      if((e.target.id =='img1' || e.target.id=='img2' || e.target.id=='img3') && clickNumber<vote){
          if(e.target.id =='img1'){
             Product.allObject[indexImg1].clicks++;
             generateImg();
@@ -97,18 +98,22 @@ function randomNumber( min, max ) {
    
 }
   
-  imgSection.addEventListener('click', sectionEvent);
+imgSection.addEventListener('click', sectionEvent);
  
-  let btn=document.getElementById('Results');
-  btn.addEventListener('click',function(){
-      let ul=document.createElement('ul');
-      document.getElementById('section-Results').appendChild(ul);
-      
-      for (let i=0;i<Product.allObject.length ;i++){
-         let li=document.createElement('li');
-          li.textContent=Product.allObject[i].name + ' had '+Product.allObject[i].clicks+' votes and was seen '+Product.allObject[i].shown+' times.';
-          ul.appendChild(li);
-      }
+let btn=document.getElementById('Results');
+function btnFunction(){
+    let ul=document.createElement('ul');
+    document.getElementById('section-Results').appendChild(ul);
+    
+    for (let i=0;i<Product.allObject.length ;i++){
+       let li=document.createElement('li');
+        li.textContent=Product.allObject[i].name + ' had '+Product.allObject[i].clicks+' votes and was seen '+Product.allObject[i].shown+' times.';
+        ul.appendChild(li);
+    }
+   
+}
+btn.addEventListener('click',btnFunction);
+    
 
-  });
+
   console.log(clickNumber);
