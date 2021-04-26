@@ -100,7 +100,7 @@ function randomNumber( min, max ) {
   
 imgSection.addEventListener('click', sectionEvent);
  
-let btn=document.getElementById('Results');
+
 
     
 
