@@ -1,6 +1,4 @@
 "use strict";
-function sectionEvent(e) {}
-
 let img_pathArr = [
   "bag.jpg",
   "banana.jpg",
@@ -34,7 +32,7 @@ let indexImg3 = 0;
 let vote = 25;
 let labelArr = [];
 let voteArr = [0];
-let viewedArr=[0];
+let viewedArr = [0];
 //craete constructor
 function Product(name) {
   this.name = name;
@@ -45,6 +43,7 @@ function Product(name) {
       break;
     }
   }
+ 
   this.shown = 0;
   this.clicks = 0;
   Product.allObject.push(this);
@@ -55,6 +54,7 @@ for (let i = 0; i < img_pathArr.length; i++) {
   new Product(r[0]);
   console.log(r[0]);
   labelArr.push(r[0]);
+ 
 }
 function generateImg() {
   let index1;
@@ -65,21 +65,21 @@ function generateImg() {
   } while (index1 == indexImg1);
 
   Product.allObject[index1].shown++;
-  viewedArr[index1]=Product.allObject[index1].shown;
+  viewedArr[index1] = Product.allObject[index1].shown;
 
   let index2 = randomNumber(0, img_pathArr.length - 1);
   while (index1 == index2 || indexImg2 == index2) {
     index2 = randomNumber(0, img_pathArr.length - 1);
   }
   Product.allObject[index2].shown++;
-  viewedArr[index2]=Product.allObject[index2].shown;
+  viewedArr[index2] = Product.allObject[index2].shown;
 
   let index3 = randomNumber(0, img_pathArr.length - 1);
   while (index3 == index1 || index3 == index2 || index3 == indexImg3) {
     index3 = randomNumber(0, img_pathArr.length - 1);
   }
   Product.allObject[index3].shown++;
-  viewedArr[index3]=Product.allObject[index3].shown;
+  viewedArr[index3] = Product.allObject[index3].shown;
 
   img1.src = Product.allObject[index1].imgPath;
   img2.src = Product.allObject[index2].imgPath;
@@ -88,6 +88,8 @@ function generateImg() {
   indexImg1 = index1;
   indexImg2 = index2;
   indexImg3 = index3;
+  
+  
 }
 //random number function
 function randomNumber(min, max) {
@@ -108,6 +110,7 @@ function sectionEvent(e) {
     if (e.target.id == "img1") {
       Product.allObject[indexImg1].clicks++;
       voteArr[indexImg1] = Product.allObject[indexImg1].clicks;
+     
       generateImg();
       clickNumber++;
       console.log(clickNumber, "img 1");
@@ -115,6 +118,7 @@ function sectionEvent(e) {
     if (e.target.id == "img2") {
       Product.allObject[indexImg2].clicks++;
       voteArr[indexImg2] = Product.allObject[indexImg2].clicks;
+      
       generateImg();
       clickNumber++;
       console.log(clickNumber, "img 2");
@@ -122,13 +126,45 @@ function sectionEvent(e) {
     if (e.target.id == "img3") {
       Product.allObject[indexImg3].clicks++;
       voteArr[indexImg3] = Product.allObject[indexImg3].clicks;
+     
       generateImg();
       clickNumber++;
       console.log(clickNumber, "img 3");
     }
-  } else if (clickNumber == vote) 
-  {
-    var ctx = document.getElementById("myChart").getContext("2d");
+  } else if (clickNumber == vote) {
+    callChart();
+  }
+  saveProduct();
+  
+}
+
+imgSection.addEventListener("click", sectionEvent);
+//reasult btn
+let btn = document.getElementById("Results");
+let ul = document.createElement("ul");
+document.getElementById("section-Results").appendChild(ul);
+function btnFunction() {
+ 
+  ul.innerHTML='';
+  for (let i = 0; i < Product.allObject.length; i++) {
+    let li = document.createElement("li");
+    li.textContent =
+      Product.allObject[i].name +
+      " had " +
+      Product.allObject[i].clicks +
+      " votes and was seen " +
+      Product.allObject[i].shown +
+      " times.";
+    ul.appendChild(li);
+  }
+  
+  btn.removeEventListener("click", btnFunction);
+
+}
+btn.addEventListener("click", btnFunction);
+//chart.js
+function callChart() {
+  var ctx = document.getElementById("myChart").getContext("2d");
     var myChart = new Chart(ctx, {
       type: "bar",
       data: {
@@ -142,12 +178,12 @@ function sectionEvent(e) {
             borderWidth: 1,
           },
           {
-              label:'# of viewed',
-              data:viewedArr,
-              backgroundColor:["rgba(255, 99, 132, 1)"],
-              borderColor:["rgba(54, 162, 235, 1)"],
-              borderWidth: 1,
-          }
+            label: "# of viewed",
+            data: viewedArr,
+            backgroundColor: ["rgba(255, 99, 132, 1)"],
+            borderColor: ["rgba(54, 162, 235, 1)"],
+            borderWidth: 1,
+          },
         ],
       },
       options: {
@@ -159,28 +195,21 @@ function sectionEvent(e) {
       },
     });
     clickNumber++;
-  }
 }
 
-imgSection.addEventListener("click", sectionEvent);
-let btn = document.getElementById("Results");
-function btnFunction() {
-  let ul = document.createElement("ul");
-  document.getElementById("section-Results").appendChild(ul);
-
-  for (let i = 0; i < Product.allObject.length; i++) {
-    let li = document.createElement("li");
-    li.textContent =
-      Product.allObject[i].name +
-      " had " +
-      Product.allObject[i].clicks +
-      " votes and was seen " +
-      Product.allObject[i].shown +
-      " times.";
-    ul.appendChild(li);
-  }
-  btn.removeEventListener("click", btnFunction);
+function saveProduct() {
+  localStorage.setItem( 'Product', JSON.stringify( Product.allObject ) );
 }
-btn.addEventListener("click", btnFunction);
-//chart.js
-function callChart() {}
+ function getProduct() {
+   let data = JSON.parse( localStorage.getItem( 'Product' ) );
+  if( data != null ) {
+    for( let i = 0; i < data.length; i++ ) {
+     console.log(data,'data');
+      Product.allObject[i].clicks=data[i].clicks;
+      Product.allObject[i].shown=data[i].shown;
+      console.log('shown', Product.allObject[i].shown);
+    }
+    
+  } 
+}
+getProduct(); 
